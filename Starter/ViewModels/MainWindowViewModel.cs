@@ -4,6 +4,7 @@ using Starter.ViewModels.Base;
 using System.Windows.Input;
 using System.Data;
 using System.IO;
+using Microsoft.Win32;
 
 namespace Starter.ViewModels
 {
@@ -13,6 +14,7 @@ namespace Starter.ViewModels
         {
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             AddCsvFileCommand = new RelayCommand(OnAddCsvFileCommand, CanAddCsvFileCommand);
+            OpenFileDialogCommand = new RelayCommand(OnExecuteOpenFileDialog, CanExecuteOpenFileDialog);
         }
 
         #region Commands
@@ -27,7 +29,7 @@ namespace Starter.ViewModels
         }
         #endregion
 
-        #region AddCsvFile
+        #region AddCsvFileToDb
         public ICommand AddCsvFileCommand { get; }
 
         public bool CanAddCsvFileCommand(object p) => true;
@@ -42,8 +44,8 @@ namespace Starter.ViewModels
             tblcsv.Columns.Add("Country");
 
 
-            string CSVFilePath = Path.GetFullPath("D:\\Program_works\\other\\Starter\\Starter\\DataTest.csv");
-            string ReadCSV = File.ReadAllText(CSVFilePath);
+            //string CSVFilePath = Path.GetFullPath("D:\\Program_works\\other\\Starter\\Starter\\DataTest.csv");
+            string ReadCSV = File.ReadAllText(_selectedPath);
 
             foreach (string csvRow in ReadCSV.Split('\n'))
             {
@@ -62,6 +64,32 @@ namespace Starter.ViewModels
         }
 
         #endregion
+
+        #region OpenFileDialog
+        private string _selectedPath;
+        public string SelectedPath
+        {
+            get { return _selectedPath ?? "C:\\"; }
+            set
+            {
+                _selectedPath = value;
+            }
+        }
+
+        private string _defaultPath = "C:\\";
+        public static ICommand OpenFileDialogCommand { get; set; }
+        public bool CanExecuteOpenFileDialog(object p) => true;
+        public void OnExecuteOpenFileDialog(object p)
+        {
+            var dialog = new OpenFileDialog { InitialDirectory = _defaultPath };
+            dialog.ShowDialog();
+
+            SelectedPath = dialog.FileName;
+
+            OnAddCsvFileCommand(p);
+        }
+        #endregion
+
         #endregion
     }
 }
