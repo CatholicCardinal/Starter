@@ -25,7 +25,7 @@
             </Grid.ColumnDefinitions>
             <GroupBox Grid.Column="0" Header="Saving Database">
                 <ListBoxItem>
-                    <TextBlock Text="{Binding SelectedPath}"></TextBlock></ListBoxItem>
+                    <TextBlock Text="{Binding }"></TextBlock></ListBoxItem>
             </GroupBox>
             <GroupBox Grid.Column="1" Header="Content">
                 <DataGrid>

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Data;
 using System.IO;
 using Microsoft.Win32;
+using Starter.Models.Data;
 
 namespace Starter.ViewModels
 {
@@ -35,6 +36,11 @@ namespace Starter.ViewModels
         public bool CanAddCsvFileCommand(object p) => true;
         public void OnAddCsvFileCommand(object p)
         {
+            string FileName = "DataTest";
+            string ReadCSV = File.ReadAllText("D:\\Program_works\\git\\Starter\\Starter\\DataTest.csv");
+            //string FileName;
+            //string ReadCSV = File.ReadAllText(OpenFileDialog(out FileName));
+
             DataTable tblcsv = new DataTable();
             tblcsv.Columns.Add("Date");
             tblcsv.Columns.Add("Name");
@@ -42,10 +48,6 @@ namespace Starter.ViewModels
             tblcsv.Columns.Add("Patranomic");
             tblcsv.Columns.Add("City");
             tblcsv.Columns.Add("Country");
-
-
-            //string CSVFilePath = Path.GetFullPath("D:\\Program_works\\other\\Starter\\Starter\\DataTest.csv");
-            string ReadCSV = File.ReadAllText(OpenFileDialog());
 
             foreach (string csvRow in ReadCSV.Split('\n'))
             {
@@ -60,13 +62,13 @@ namespace Starter.ViewModels
                     }
                 }
             }
-            DataWorker.InsertCSVRecords(tblcsv);
+            DataWorker.InsertCSVRecords(tblcsv, FileName);
         }
-        public string OpenFileDialog()
+        public string OpenFileDialog(out string FileName)
         {
             var dialog = new OpenFileDialog { InitialDirectory = "C:\\" };
             dialog.ShowDialog();
-
+            FileName = dialog.SafeFileName;
             return dialog.FileName;
         }
         #endregion
