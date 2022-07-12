@@ -14,7 +14,6 @@ namespace Starter.ViewModels
         {
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             AddCsvFileCommand = new RelayCommand(OnAddCsvFileCommand, CanAddCsvFileCommand);
-            OpenFileDialogCommand = new RelayCommand(OnExecuteOpenFileDialog, CanExecuteOpenFileDialog);
         }
 
         #region Commands
@@ -30,6 +29,7 @@ namespace Starter.ViewModels
         #endregion
 
         #region AddCsvFileToDb
+
         public ICommand AddCsvFileCommand { get; }
 
         public bool CanAddCsvFileCommand(object p) => true;
@@ -45,7 +45,7 @@ namespace Starter.ViewModels
 
 
             //string CSVFilePath = Path.GetFullPath("D:\\Program_works\\other\\Starter\\Starter\\DataTest.csv");
-            string ReadCSV = File.ReadAllText(_selectedPath);
+            string ReadCSV = File.ReadAllText(OpenFileDialog());
 
             foreach (string csvRow in ReadCSV.Split('\n'))
             {
@@ -62,31 +62,12 @@ namespace Starter.ViewModels
             }
             DataWorker.InsertCSVRecords(tblcsv);
         }
-
-        #endregion
-
-        #region OpenFileDialog
-        private string _selectedPath;
-        public string SelectedPath
+        public string OpenFileDialog()
         {
-            get { return _selectedPath ?? "C:\\"; }
-            set
-            {
-                _selectedPath = value;
-            }
-        }
-
-        private string _defaultPath = "C:\\";
-        public static ICommand OpenFileDialogCommand { get; set; }
-        public bool CanExecuteOpenFileDialog(object p) => true;
-        public void OnExecuteOpenFileDialog(object p)
-        {
-            var dialog = new OpenFileDialog { InitialDirectory = _defaultPath };
+            var dialog = new OpenFileDialog { InitialDirectory = "C:\\" };
             dialog.ShowDialog();
 
-            SelectedPath = dialog.FileName;
-
-            OnAddCsvFileCommand(p);
+            return dialog.FileName;
         }
         #endregion
 

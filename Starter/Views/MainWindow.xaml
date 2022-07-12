@@ -14,7 +14,7 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Add" Command="{Binding OpenFileDialogCommand}"></MenuItem>
+                <MenuItem Header="Add" Command="{Binding AddCsvFileCommand}"></MenuItem>
                 <MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}"></MenuItem>
             </MenuItem>
         </Menu>
