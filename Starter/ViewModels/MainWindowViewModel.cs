@@ -7,6 +7,7 @@ using System.IO;
 using Microsoft.Win32;
 using Starter.Models;
 using System.Collections.Generic;
+using System;
 
 namespace Starter.ViewModels
 {
@@ -41,39 +42,47 @@ namespace Starter.ViewModels
         public bool CanAddCsvFileCommand(object p) => true;
         public void OnAddCsvFileCommand(object p)
         {
-            DataTable tblcsv = new DataTable();
-            tblcsv.Columns.Add("Date");
-            tblcsv.Columns.Add("Name");
-            tblcsv.Columns.Add("SecondName");
-            tblcsv.Columns.Add("Patranomic");
-            tblcsv.Columns.Add("City");
-            tblcsv.Columns.Add("Country");
-
-
             //string CSVFilePath = Path.GetFullPath("D:\\Program_works\\other\\Starter\\Starter\\DataTest.csv");
-            string ReadCSV = File.ReadAllText(OpenFileDialog());
-
-            foreach (string csvRow in ReadCSV.Split('\n'))
+            try
             {
-                if (!string.IsNullOrEmpty(csvRow))
+                string ReadCSV = File.ReadAllText(OpenFileDialog());
+
+                DataTable tblcsv = new DataTable();
+                tblcsv.Columns.Add("Date");
+                tblcsv.Columns.Add("Name");
+                tblcsv.Columns.Add("SecondName");
+                tblcsv.Columns.Add("Patranomic");
+                tblcsv.Columns.Add("City");
+                tblcsv.Columns.Add("Country");
+
+                foreach (string csvRow in ReadCSV.Split('\n'))
                 {
-                    tblcsv.Rows.Add();
-                    int count = 0;
-                    foreach (string FileRec in csvRow.Split(';'))
+                    if (!string.IsNullOrEmpty(csvRow))
                     {
-                        tblcsv.Rows[tblcsv.Rows.Count - 1][count] = FileRec;
-                        count++;
+                        tblcsv.Rows.Add();
+                        int count = 0;
+                        foreach (string FileRec in csvRow.Split(';'))
+                        {
+                            tblcsv.Rows[tblcsv.Rows.Count - 1][count] = FileRec;
+                            count++;
+                        }
                     }
                 }
+                DataWorker.InsertCSVRecords(tblcsv);
+                UpdateAllRecordsView();
+
             }
-            DataWorker.InsertCSVRecords(tblcsv);
-            UpdateAllRecordsView();
+            catch 
+            { 
+            
+            }
         }
         public string OpenFileDialog()
         {
             var dialog = new OpenFileDialog { InitialDirectory = "C:\\" };
+            dialog.Filter = "CSV Files (*.csv)|*.csv";
             dialog.ShowDialog();
-
+             
             return dialog.FileName;
         }
         #endregion

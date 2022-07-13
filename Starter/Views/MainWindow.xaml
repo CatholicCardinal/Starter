@@ -14,8 +14,8 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="Adding file" Command="{Binding AddCsvFileCommand}"></MenuItem>
-                <MenuItem Header="Cleaning table" Command="{Binding CleanDbCommand}"></MenuItem>
+                <MenuItem Header="Add file" Command="{Binding AddCsvFileCommand}"></MenuItem>
+                <MenuItem Header="Clean table" Command="{Binding CleanDbCommand}"></MenuItem>
                 <MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}"></MenuItem>
             </MenuItem>
         </Menu>
