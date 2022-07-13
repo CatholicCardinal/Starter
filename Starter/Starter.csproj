@@ -16,4 +16,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Windows_ManageStaffDBApp\ManageStaffDBApp.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -5,15 +5,22 @@ using System.Windows.Input;
 using System.Data;
 using System.IO;
 using Microsoft.Win32;
+using Starter.Models;
+using System.Collections.Generic;
 
 namespace Starter.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
+        private List<Record> allRecords = DataWorker.GetAllRecords();
+        public List<Record> AllRecords { get { return allRecords; } set { allRecords = value; OnPropertyChanged("AllRecords"); }        }
+           
+        
         public MainWindowViewModel()
         {
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             AddCsvFileCommand = new RelayCommand(OnAddCsvFileCommand, CanAddCsvFileCommand);
+            CleanDbCommand = new RelayCommand(OnCleanDbCommand, CanCleanDbCommand);
         }
 
         #region Commands
@@ -61,6 +68,7 @@ namespace Starter.ViewModels
                 }
             }
             DataWorker.InsertCSVRecords(tblcsv);
+            UpdateAllRecordsView();
         }
         public string OpenFileDialog()
         {
@@ -71,6 +79,22 @@ namespace Starter.ViewModels
         }
         #endregion
 
+        #region CleanDb
+        public ICommand CleanDbCommand { get; }
+
+        public bool CanCleanDbCommand(object p) => true;
+        public void OnCleanDbCommand(object p)
+        {
+            DataWorker.DeleteAllRecords();
+            UpdateAllRecordsView();
+        }
         #endregion
+
+        #endregion
+
+        private void UpdateAllRecordsView()
+        {
+            AllRecords = DataWorker.GetAllRecords();
+        }
     }
 }
