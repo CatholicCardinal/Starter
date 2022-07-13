@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Starter.Models
 {
     public class Record
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; }
-        public int PersonId { get; set; }
-        public virtual Person Person { get; set; }
-        public int CityId { get; set; }
-        public virtual City City { get; set; }
-
+        public string Date { get; set; }
+        public string Name { get; set; }
+        public string SecondName { get; set; }
+        public string Patranomic { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
     }
 }

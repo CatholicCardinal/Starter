@@ -20,13 +20,8 @@
         </Menu>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <GroupBox Grid.Column="0" Header="Saving Database">
-                <ListBoxItem>
-                    <TextBlock Text="{Binding SelectedPath}"></TextBlock></ListBoxItem>
-            </GroupBox>
             <GroupBox Grid.Column="1" Header="Content">
                 <DataGrid>
                 </DataGrid>

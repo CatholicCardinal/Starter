@@ -11,14 +11,12 @@ namespace Starter.Commands
 {
     public static class DataWorker
     {
+
         public static void InsertCSVRecords(DataTable csvdt)
         {
-            var con = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=starter1;Trusted_Connection=True;");
-            //creating object of SqlBulkCopy    
-            SqlBulkCopy objbulk = new SqlBulkCopy(con);
-            //assigning Destination table name    
-            objbulk.DestinationTableName = "RecordTests";
-            //Mapping Table column    
+            var con = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=starter1;Trusted_Connection=True;");   
+            SqlBulkCopy objbulk = new SqlBulkCopy(con); 
+            objbulk.DestinationTableName = "Records";  
             objbulk.ColumnMappings.Add("Date", "Date");
             objbulk.ColumnMappings.Add("Name", "Name");
             objbulk.ColumnMappings.Add("SecondName", "SecondName");
