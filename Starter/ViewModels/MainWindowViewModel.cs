@@ -13,8 +13,7 @@ namespace Starter.ViewModels
     internal class MainWindowViewModel : ViewModel
     {
         private List<Record> allRecords = DataWorker.GetAllRecords();
-        public List<Record> AllRecords { get { return allRecords; } set { allRecords = value; OnPropertyChanged("AllRecords"); }        }
-           
+        public List<Record> AllRecords { get => allRecords; set => Set(ref allRecords, value); }
         
         public MainWindowViewModel()
         {
