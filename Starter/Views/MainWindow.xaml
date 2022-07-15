@@ -18,6 +18,9 @@
                 <MenuItem Header="Clean table" Command="{Binding CleanDbCommand}"></MenuItem>
                 <MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}"></MenuItem>
             </MenuItem>
+            <MenuItem Header="Export">
+                <MenuItem Header="To Exel" Command="{Binding ExportExelCommand}"></MenuItem>
+            </MenuItem>
         </Menu>
         <Grid>
             <Grid.ColumnDefinitions>

@@ -9,6 +9,7 @@ using Starter.Models;
 using System.Collections.Generic;
 using System;
 
+
 namespace Starter.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
@@ -21,6 +22,7 @@ namespace Starter.ViewModels
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             AddCsvFileCommand = new RelayCommand(OnAddCsvFileCommand, CanAddCsvFileCommand);
             CleanDbCommand = new RelayCommand(OnCleanDbCommand, CanCleanDbCommand);
+            ExportExelCommand = new RelayCommand(OnExportExelCommand, CanExportExelCommand);
         }
 
         #region Commands
@@ -95,6 +97,30 @@ namespace Starter.ViewModels
         {
             DataWorker.DeleteAllRecords();
             UpdateAllRecordsView();
+        }
+        #endregion
+
+        #region ExportExel
+
+        public ICommand ExportExelCommand { get; }
+        public bool CanExportExelCommand(object p) => true;
+        public void OnExportExelCommand(object p)
+        {
+            using (Serialization.ExcelSerialization<Record> export = new Serialization.ExcelSerialization<Record>())
+            {
+                var answ = SaveFileDialog();
+                if (!string.IsNullOrEmpty(answ))
+                    export.Export(answ, AllRecords);
+            }
+        }
+
+        private string SaveFileDialog()
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            dialog.ShowDialog();
+
+            return dialog.FileName;
         }
         #endregion
 
