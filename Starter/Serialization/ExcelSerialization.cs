@@ -60,7 +60,6 @@ namespace Starter.Serialization
                     colomnValue = 'A';
                     foreach (var field in typeof(T).GetFilteredProperties())
                     {
-                        //PropertyInfo myProperty = T.GetType().GenericTypeArguments[0].GetProperty(field.ToString);
                         Set(column: colomnValue.ToString(), row: i, data: field.GetValue(item));
                         colomnValue++;
                     }

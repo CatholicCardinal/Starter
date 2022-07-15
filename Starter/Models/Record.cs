@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Starter.Models
 {
+    [Serializable]
+    [XmlRoot("Starter", Namespace = "Starter")]
     public class Record
     {
         [SkipProperty]

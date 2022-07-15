@@ -22,7 +22,8 @@ namespace Starter.ViewModels
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             AddCsvFileCommand = new RelayCommand(OnAddCsvFileCommand, CanAddCsvFileCommand);
             CleanDbCommand = new RelayCommand(OnCleanDbCommand, CanCleanDbCommand);
-            ExportExelCommand = new RelayCommand(OnExportExelCommand, CanExportExelCommand);
+            ExportExcelCommand = new RelayCommand(OnExportExcelCommand, CanExportExcelCommand);
+            ExportXmlCommand = new RelayCommand(OnExportXmlCommand, CanExportXmlCommand);
         }
 
         #region Commands
@@ -100,29 +101,47 @@ namespace Starter.ViewModels
         }
         #endregion
 
-        #region ExportExel
+        #region ExportExcel
 
-        public ICommand ExportExelCommand { get; }
-        public bool CanExportExelCommand(object p) => true;
-        public void OnExportExelCommand(object p)
+        public ICommand ExportExcelCommand { get; }
+        public bool CanExportExcelCommand(object p) => true;
+        public void OnExportExcelCommand(object p)
         {
             using (Serialization.ExcelSerialization<Record> export = new Serialization.ExcelSerialization<Record>())
             {
-                var answ = SaveFileDialog();
+                var answ = SaveFileDialog("Excel Files|*.xls;*.xlsx;*.xlsm");
                 if (!string.IsNullOrEmpty(answ))
                     export.Export(answ, AllRecords);
             }
         }
 
-        private string SaveFileDialog()
+        private string SaveFileDialog(string filter)
         {
             var dialog = new SaveFileDialog();
-            dialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+            dialog.Filter = filter;
             dialog.ShowDialog();
 
             return dialog.FileName;
         }
         #endregion
+
+        #region ExportXml
+
+        public ICommand ExportXmlCommand { get; }
+        private bool CanExportXmlCommand(object arg) => true;
+
+        private void OnExportXmlCommand(object obj) 
+        {
+            var answ = SaveFileDialog("XML-File | *.xml");
+            using (Serialization.XmlSerialization<Record> export = new Serialization.XmlSerialization<Record>())
+            {
+                if (!string.IsNullOrEmpty(answ))
+                    export.Export(answ, AllRecords);
+            }
+        }
+
+        #endregion
+
 
         #endregion
 
@@ -130,5 +149,7 @@ namespace Starter.ViewModels
         {
             AllRecords = DataWorker.GetAllRecords();
         }
+
+       
     }
 }

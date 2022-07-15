@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Starter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="Starter">
+  <Id>43</Id>
+  <Date>01.01.2022</Date>
+  <Name>Vlad</Name>
+  <SecondName>Fedorov</SecondName>
+  <Patranomic>Vitalievich</Patranomic>
+  <City>Gomel</City>
+  <Country>Belarus
+</Country>
+</Starter>
