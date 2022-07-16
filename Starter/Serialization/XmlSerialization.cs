@@ -17,7 +17,7 @@ namespace Starter.Serialization
             _serializer = new XmlSerializer(typeof(T));
         }
 
-        public void Export(string filePath, List<T> data)
+        public void Export(string filePath, T data)
         {
             try
             {
@@ -25,10 +25,11 @@ namespace Starter.Serialization
                 {
                     using (XmlWriter xmlWriter = XmlWriter.Create(filePath, _xmlWriterSettings))
                     {
-                        foreach (var item in data)
-                        {
-                            _serializer.Serialize(xmlWriter, item);
-                        }
+                        _serializer.Serialize(xmlWriter, data);
+                        //foreach (var item in data)
+                        //{
+                        //   _serializer.Serialize(xmlWriter, item);
+                        //}
                     }
                 }
             }

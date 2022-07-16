@@ -133,7 +133,7 @@ namespace Starter.ViewModels
         private void OnExportXmlCommand(object obj) 
         {
             var answ = SaveFileDialog("XML-File | *.xml");
-            using (Serialization.XmlSerialization<Record> export = new Serialization.XmlSerialization<Record>())
+            using (Serialization.XmlSerialization<List<Record>> export = new Serialization.XmlSerialization<List<Record>>())
             {
                 if (!string.IsNullOrEmpty(answ))
                     export.Export(answ, AllRecords);

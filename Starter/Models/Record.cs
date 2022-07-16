@@ -9,10 +9,10 @@ using System.Xml.Serialization;
 namespace Starter.Models
 {
     [Serializable]
-    [XmlRoot("Starter", Namespace = "Starter")]
     public class Record
     {
         [SkipProperty]
+        [XmlAttributeAttribute("ID")]
         public int Id { get; set; }
         public string Date { get; set; }
         public string Name { get; set; }
