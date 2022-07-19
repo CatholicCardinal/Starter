@@ -12,7 +12,7 @@ namespace Starter.Models
     public class Record
     {
         [SkipProperty]
-        [XmlAttributeAttribute("ID")]
+        [XmlAttribute("ID")]
         public int Id { get; set; }
         public string Date { get; set; }
         public string Name { get; set; }

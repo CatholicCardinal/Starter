@@ -26,10 +26,6 @@ namespace Starter.Serialization
                     using (XmlWriter xmlWriter = XmlWriter.Create(filePath, _xmlWriterSettings))
                     {
                         _serializer.Serialize(xmlWriter, data);
-                        //foreach (var item in data)
-                        //{
-                        //   _serializer.Serialize(xmlWriter, item);
-                        //}
                     }
                 }
             }
