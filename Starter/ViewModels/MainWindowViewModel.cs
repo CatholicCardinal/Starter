@@ -8,7 +8,7 @@ using Microsoft.Win32;
 using Starter.Models;
 using System.Collections.Generic;
 using System;
-
+using Starter.Views;
 
 namespace Starter.ViewModels
 {
@@ -107,6 +107,7 @@ namespace Starter.ViewModels
         public bool CanExportExcelCommand(object p) => true;
         public void OnExportExcelCommand(object p)
         {
+            OpenExportSettingsWindowMethod();
             using (Serialization.ExcelSerialization<Record> export = new Serialization.ExcelSerialization<Record>())
             {
                 var answ = SaveFileDialog("Excel Files|*.xls;*.xlsx;*.xlsm");
@@ -141,10 +142,22 @@ namespace Starter.ViewModels
         }
 
         #endregion
-
-
         #endregion
 
+        #region METHODS TO OPEN WINDOW
+        //методы открытия окон
+        private void OpenExportSettingsWindowMethod()
+        {
+            ExportSettingsWindow newExportSettingsWindow = new ExportSettingsWindow();
+            SetCenterPositionAndOpen(newExportSettingsWindow);
+        }
+        private void SetCenterPositionAndOpen(Window window)
+        {
+            window.Owner = Application.Current.MainWindow;
+            window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            window.ShowDialog();
+        }
+        #endregion
         private void UpdateAllRecordsView()
         {
             AllRecords = DataWorker.GetAllRecords();

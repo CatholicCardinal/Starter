@@ -18,9 +18,9 @@ namespace Starter.Views
     /// <summary>
     /// Логика взаимодействия для ExportCombinationFields.xaml
     /// </summary>
-    public partial class ExportCombinationFields : Window
+    public partial class ExportSettingsWindow : Window
     {
-        public ExportCombinationFields()
+        public ExportSettingsWindow()
         {
             InitializeComponent();
         }
