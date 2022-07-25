@@ -9,6 +9,7 @@ using Starter.Models;
 using System.Collections.Generic;
 using System;
 using Starter.Views;
+using Starter.Serialization;
 
 namespace Starter.ViewModels
 {
@@ -107,13 +108,14 @@ namespace Starter.ViewModels
         public bool CanExportExcelCommand(object p) => true;
         public void OnExportExcelCommand(object p)
         {
-            OpenExportSettingsWindowMethod();
-            using (Serialization.ExcelSerialization<Record> export = new Serialization.ExcelSerialization<Record>())
-            {
+            ManagerSerialization<Record> tr = new ManagerSerialization<Record>("Excel");
+            tr.Export();
+            //OpenExportSettingsWindowMethod();
+            ISerialization<Record> export = new ExcelSerialization<Record>();
                 var answ = SaveFileDialog("Excel Files|*.xls;*.xlsx;*.xlsm");
                 if (!string.IsNullOrEmpty(answ))
-                    export.Export(answ, AllRecords);
-            }
+                    export.Serialization(answ, AllRecords);
+            
         }
 
         private string SaveFileDialog(string filter)
@@ -134,11 +136,10 @@ namespace Starter.ViewModels
         private void OnExportXmlCommand(object obj) 
         {
             var answ = SaveFileDialog("XML-File | *.xml");
-            using (Serialization.XmlSerialization<List<Record>> export = new Serialization.XmlSerialization<List<Record>>())
-            {
+            XmlSerialization<List<Record>> export = new XmlSerialization<List<Record>>();
                 if (!string.IsNullOrEmpty(answ))
-                    export.Export(answ, AllRecords);
-            }
+                    export.Serialization(answ, AllRecords);
+            
         }
 
         #endregion

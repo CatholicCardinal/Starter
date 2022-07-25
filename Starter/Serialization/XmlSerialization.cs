@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace Starter.Serialization
 {
-    internal class XmlSerialization<T> : IDisposable
+    internal class XmlSerialization<T> : ISerialization<T>
     {
         private XmlSerializer _serializer;
         private XmlWriterSettings _xmlWriterSettings;
@@ -17,7 +17,7 @@ namespace Starter.Serialization
             _serializer = new XmlSerializer(typeof(T));
         }
 
-        public void Export(string filePath, T data)
+        public void Serialization(string filePath, object data)
         {
             try
             {
@@ -25,6 +25,7 @@ namespace Starter.Serialization
                 {
                     using (XmlWriter xmlWriter = XmlWriter.Create(filePath, _xmlWriterSettings))
                     {
+                        
                         _serializer.Serialize(xmlWriter, data);
                     }
                 }

@@ -9,7 +9,7 @@ using Starter.Attributes;
 
 namespace Starter.Serialization
 {
-    public class ExcelSerialization<T> : IDisposable
+    public class ExcelSerialization<T> : ISerialization<T>
     {
         private Application _excel;
         private Workbook _workbook;
@@ -22,9 +22,9 @@ namespace Starter.Serialization
             _workbook = _excel.Workbooks.Add();
         }
 
-        public void Export(string filePath, List<T> data)
+        public void Serialization(string filePath, object data)
         {
-            SetData(data);
+            SetData((List<T>)data);
             if (!string.IsNullOrEmpty(filePath))
             {
                 _workbook.SaveAs(filePath);
@@ -55,7 +55,7 @@ namespace Starter.Serialization
 
 
                 int i = 2;
-                foreach (var item in data)
+                foreach (var item in (IEnumerable<T>)data)
                 {
                     colomnValue = 'A';
                     foreach (var field in typeof(T).GetFilteredProperties())
