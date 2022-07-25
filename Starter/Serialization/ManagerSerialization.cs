@@ -19,15 +19,27 @@ namespace Starter.Serialization
         {
             MethodSerialization = methodSerialization;
         }
-        public void Export()
+        public void Export(string filePath, object data)
         {
-            Activator.CreateInstance("Starter", "ExcelSerialization");
+            switch (methodSerialization)
+            {
+                case "Excel":
+                    serialization = new ExcelSerialization<T>();
+                    break;
+                case "Xml":
+                    serialization = new XmlSerialization<T>();
+                    break;
+                default:
+                    break;
+            }
 
-            Type genericType = typeof(ExcelSerialization<>);
-            Type[] typeArgs = { Type.GetType("Starter.Models.Record") };
-            Type repositoryType = genericType.MakeGenericType(typeArgs);
+            serialization.Serialization(filePath, data);
+            serialization.Dispose();
 
-            object repository = Activator.CreateInstance(repositoryType);
+            //Type genericType = typeof(ExcelSerialization<>);
+            //Type[] typeArgs = { Type.GetType("Starter.Models.Record") };
+            //Type repositoryType = genericType.MakeGenericType(typeArgs);
+            //object repository = Activator.CreateInstance(repositoryType);
 
             //string typeString = 
             //Type typeArgument = Type.GetType(string.Format("Starter.Serialization.{0}", methodSerialization + "Serialization"));

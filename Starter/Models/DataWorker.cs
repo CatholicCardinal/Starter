@@ -6,9 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Starter.Models.Data;
-using Starter.Models;
+using System.Linq.Expressions;
+using Starter.Attributes;
 
-namespace Starter.Commands
+namespace Starter.Models
 {
     public static class DataWorker
     {
@@ -34,10 +35,10 @@ namespace Starter.Commands
         {
             DeleteAllRecords();
 
-            var con = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=starter1;Trusted_Connection=True;");   
-            SqlBulkCopy objbulk = new SqlBulkCopy(con); 
+            var con = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=starter1;Trusted_Connection=True;");
+            SqlBulkCopy objbulk = new SqlBulkCopy(con);
 
-            objbulk.DestinationTableName = "Records";  
+            objbulk.DestinationTableName = "Records";
             objbulk.ColumnMappings.Add("Date", "Date");
             objbulk.ColumnMappings.Add("Name", "Name");
             objbulk.ColumnMappings.Add("SecondName", "SecondName");
@@ -48,6 +49,17 @@ namespace Starter.Commands
             con.Open();
             objbulk.WriteToServer(csvdt);
             con.Close();
+        }
+
+        public static List<Record> SelectRecordLINQ(List<Record> records)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                return (from record in records
+                        from dbRecord in db.Records.ToList()
+                        where dbRecord.Equals(record)
+                        select dbRecord).ToList();
+            }
         }
     }
 }

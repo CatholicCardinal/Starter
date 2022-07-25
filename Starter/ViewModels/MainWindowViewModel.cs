@@ -17,14 +17,20 @@ namespace Starter.ViewModels
     {
         private List<Record> allRecords = DataWorker.GetAllRecords();
         public List<Record> AllRecords { get => allRecords; set => Set(ref allRecords, value); }
-        
+
+        private List<Record> sampleExport;
+        public List<Record> SampleExport { get => sampleExport; set => Set(ref sampleExport, value); }
+
         public MainWindowViewModel()
         {
+            sampleExport = new List<Record>();
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             AddCsvFileCommand = new RelayCommand(OnAddCsvFileCommand, CanAddCsvFileCommand);
             CleanDbCommand = new RelayCommand(OnCleanDbCommand, CanCleanDbCommand);
             ExportExcelCommand = new RelayCommand(OnExportExcelCommand, CanExportExcelCommand);
             ExportXmlCommand = new RelayCommand(OnExportXmlCommand, CanExportXmlCommand);
+            ExportOptionWindowCommand = new RelayCommand(OnExportOptionWindowCommandCommand, CanExportOptionWindowCommandCommand);
+            ExportExecuteCommand = new RelayCommand(OnExportExecuteCommand, CanExportExecuteCommand);
         }
 
         #region Commands
@@ -108,14 +114,13 @@ namespace Starter.ViewModels
         public bool CanExportExcelCommand(object p) => true;
         public void OnExportExcelCommand(object p)
         {
-            ManagerSerialization<Record> tr = new ManagerSerialization<Record>("Excel");
-            tr.Export();
+            var answ = SaveFileDialog("Excel Files|*.xls;*.xlsx;*.xlsm");
+            if (!string.IsNullOrEmpty(answ))
+            {
+                ManagerSerialization<Record> tr = new ManagerSerialization<Record>("Excel");
+                tr.Export(answ, allRecords);
+            }
             //OpenExportSettingsWindowMethod();
-            ISerialization<Record> export = new ExcelSerialization<Record>();
-                var answ = SaveFileDialog("Excel Files|*.xls;*.xlsx;*.xlsm");
-                if (!string.IsNullOrEmpty(answ))
-                    export.Serialization(answ, AllRecords);
-            
         }
 
         private string SaveFileDialog(string filter)
@@ -142,6 +147,26 @@ namespace Starter.ViewModels
             
         }
 
+        #endregion
+        #region ExportOptionWindow
+        public ICommand ExportOptionWindowCommand { get; }
+
+        private bool CanExportOptionWindowCommandCommand(object arg) => true;
+
+        private void OnExportOptionWindowCommandCommand(object obj)
+        {
+            OpenExportSettingsWindowMethod();
+        }
+        #endregion
+        #region ExportExecute
+        public ICommand ExportExecuteCommand { get; }
+
+        private bool CanExportExecuteCommand(object arg) => true;
+
+        private void OnExportExecuteCommand(object obj)
+        {
+            var temp = DataWorker.SelectRecordLINQ(SampleExport);
+        }
         #endregion
         #endregion
 

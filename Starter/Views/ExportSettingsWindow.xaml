@@ -3,10 +3,12 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:Starter.Views"
-      mc:Ignorable="d"
+      xmlns:vm="clr-namespace:Starter.ViewModels"
+        mc:Ignorable="d"
       Title="Export Settings" Width="430" Height="206">
-
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="281*"/>
@@ -21,7 +23,7 @@
         <Menu Grid.Row="0" Grid.ColumnSpan="2">
             <MenuItem Header="Add"></MenuItem>
         </Menu>
-        <DataGrid  Grid.Row="1" ItemsSource="{Binding AllRecords}"
+        <DataGrid  Grid.Row="1" ItemsSource="{Binding SampleExport}"
                           AutoGenerateColumns="False"
                           IsReadOnly="False"
                           GridLinesVisibility="Vertical"
@@ -37,7 +39,6 @@
             </DataGrid.Columns>
             
         </DataGrid>
-        <Button Grid.Row="2" Content="Cancel" Width="67" Height="25" HorizontalAlignment="Left" Margin="115,13,0,12" Command=""/>
-        <Button Grid.Row="2" Content="Export" Height="25" Command="{Binding }" Margin="215,13,135,12" Grid.ColumnSpan="2"/>
+        <Button Grid.Row="2" Content="Export" Height="25" Command="{Binding ExportExecuteCommand}" CommandParameter="" Margin="165,13,36,12"/>
     </Grid>
 </Window>
