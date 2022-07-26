@@ -19,11 +19,6 @@
                 <MenuItem Header="Export" Command="{Binding ExportOptionWindowCommand}"></MenuItem>
                 <MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Export">
-                <MenuItem Header="To Excel" Command="{Binding ExportExcelCommand}"></MenuItem>
-                <MenuItem Header="To Xml" Command="{Binding ExportXmlCommand}"></MenuItem>
-                <MenuItem Header="Export" Command="{Binding ExportOptionWindowCommand}"></MenuItem>
-            </MenuItem>
         </Menu>
         <Grid>
             <Grid.ColumnDefinitions>

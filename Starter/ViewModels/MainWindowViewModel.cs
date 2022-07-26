@@ -18,7 +18,7 @@ namespace Starter.ViewModels
         private List<Record> allRecords = DataWorker.GetAllRecords();
         public List<Record> AllRecords { get => allRecords; set => Set(ref allRecords, value); }
 
-        private List<Record> sampleExport;
+        private List<Record> sampleExport = new List<Record>();
         public List<Record> SampleExport { get => sampleExport; set => Set(ref sampleExport, value); }
 
         private string typeSerialization;
@@ -26,27 +26,14 @@ namespace Starter.ViewModels
 
         public MainWindowViewModel()
         {
-            sampleExport = new List<Record>();
-            CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
             AddCsvFileCommand = new RelayCommand(OnAddCsvFileCommand, CanAddCsvFileCommand);
-            CleanDbCommand = new RelayCommand(OnCleanDbCommand, CanCleanDbCommand);
-            ExportExcelCommand = new RelayCommand(OnExportExcelCommand, CanExportExcelCommand);
-            ExportXmlCommand = new RelayCommand(OnExportXmlCommand, CanExportXmlCommand);
-            ExportOptionWindowCommand = new RelayCommand(OnExportOptionWindowCommandCommand, CanExportOptionWindowCommandCommand);
             ExportExecuteCommand = new RelayCommand(OnExportExecuteCommand, CanExportExecuteCommand);
+            ExportOptionWindowCommand = new RelayCommand(OnExportOptionWindowCommandCommand, CanExportOptionWindowCommandCommand);
+            CleanDbCommand = new RelayCommand(OnCleanDbCommand, CanCleanDbCommand);
+            CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
         }
 
         #region Commands
-
-        #region Close
-        public ICommand CloseApplicationCommand { get; }
-
-        public bool CanCloseApplicationCommand(object p) => true;
-        public void OnCloseApplicationCommand(object p)
-        {
-            Application.Current.Shutdown();
-        }
-        #endregion
 
         #region AddCsvFileToDb
 
@@ -100,67 +87,6 @@ namespace Starter.ViewModels
         }
         #endregion
 
-        #region CleanDb
-        public ICommand CleanDbCommand { get; }
-
-        public bool CanCleanDbCommand(object p) => true;
-        public void OnCleanDbCommand(object p)
-        {
-            DataWorker.DeleteAllRecords();
-            UpdateAllRecordsView();
-        }
-        #endregion
-
-        #region ExportExcel
-
-        public ICommand ExportExcelCommand { get; }
-        public bool CanExportExcelCommand(object p) => true;
-        public void OnExportExcelCommand(object p)
-        {
-            var answ = SaveFileDialog("Excel Files|*.xls;*.xlsx;*.xlsm");
-            if (!string.IsNullOrEmpty(answ))
-            {
-                ManagerSerialization<Record> tr = new ManagerSerialization<Record>("Excel");
-                tr.Export(answ, allRecords);
-            }
-            //OpenExportSettingsWindowMethod();
-        }
-
-        private string SaveFileDialog(string filter)
-        {
-            var dialog = new SaveFileDialog();
-            dialog.Filter = filter;
-            dialog.ShowDialog();
-
-            return dialog.FileName;
-        }
-        #endregion
-
-        #region ExportXml
-
-        public ICommand ExportXmlCommand { get; }
-        private bool CanExportXmlCommand(object arg) => true;
-
-        private void OnExportXmlCommand(object obj) 
-        {
-            var answ = SaveFileDialog("XML-File | *.xml");
-            XmlSerialization<List<Record>> export = new XmlSerialization<List<Record>>();
-                if (!string.IsNullOrEmpty(answ))
-                    export.Serialization(answ, AllRecords);
-            
-        }
-
-        #endregion
-        #region ExportOptionWindow
-        public ICommand ExportOptionWindowCommand { get; }
-
-        private bool CanExportOptionWindowCommandCommand(object arg) => true;
-
-        private void OnExportOptionWindowCommandCommand(object obj)
-        {
-            OpenExportSettingsWindowMethod();
-        }
-        #endregion
         #region ExportExecute
         public ICommand ExportExecuteCommand { get; }
 
@@ -187,6 +113,47 @@ namespace Starter.ViewModels
                 ManagerSerialization<Record> managerSerialization = new ManagerSerialization<Record>(TypeSerialization);
                 managerSerialization.Export(answ, DataWorker.SelectRecordLINQ(SampleExport));
             }
+        }
+
+        private string SaveFileDialog(string filter)
+        {
+            var dialog = new SaveFileDialog();
+            dialog.Filter = filter;
+            dialog.ShowDialog();
+
+            return dialog.FileName;
+        }
+        #endregion
+
+        #region ExportOptionWindow
+        public ICommand ExportOptionWindowCommand { get; }
+
+        private bool CanExportOptionWindowCommandCommand(object arg) => true;
+
+        private void OnExportOptionWindowCommandCommand(object obj)
+        {
+            OpenExportSettingsWindowMethod();
+        }
+        #endregion
+
+        #region CleanDb
+        public ICommand CleanDbCommand { get; }
+
+        public bool CanCleanDbCommand(object p) => true;
+        public void OnCleanDbCommand(object p)
+        {
+            DataWorker.DeleteAllRecords();
+            UpdateAllRecordsView();
+        }
+        #endregion
+
+        #region Close
+        public ICommand CloseApplicationCommand { get; }
+
+        public bool CanCloseApplicationCommand(object p) => true;
+        public void OnCloseApplicationCommand(object p)
+        {
+            Application.Current.Shutdown();
         }
         #endregion
         #endregion
