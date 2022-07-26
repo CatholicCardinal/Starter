@@ -21,6 +21,9 @@ namespace Starter.ViewModels
         private List<Record> sampleExport;
         public List<Record> SampleExport { get => sampleExport; set => Set(ref sampleExport, value); }
 
+        private string typeSerialization;
+        public string TypeSerialization { get => typeSerialization; set => Set(ref typeSerialization, value); }
+
         public MainWindowViewModel()
         {
             sampleExport = new List<Record>();
@@ -165,7 +168,25 @@ namespace Starter.ViewModels
 
         private void OnExportExecuteCommand(object obj)
         {
-            var temp = DataWorker.SelectRecordLINQ(SampleExport);
+            string dialogFilter ="";
+            switch (TypeSerialization)
+            {
+                case "Xml":
+                    dialogFilter = "XML-File | *.xml";
+                    break;
+                case "Excel":
+                    dialogFilter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+                    break;
+                default:
+                    break;
+            }
+     
+            var answ = SaveFileDialog(dialogFilter);
+            if (!string.IsNullOrEmpty(answ))
+            {
+                ManagerSerialization<Record> managerSerialization = new ManagerSerialization<Record>(TypeSerialization);
+                managerSerialization.Export(answ, DataWorker.SelectRecordLINQ(SampleExport));
+            }
         }
         #endregion
         #endregion
@@ -188,7 +209,5 @@ namespace Starter.ViewModels
         {
             AllRecords = DataWorker.GetAllRecords();
         }
-
-       
     }
 }

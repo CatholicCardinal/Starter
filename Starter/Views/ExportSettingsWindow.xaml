@@ -16,13 +16,17 @@
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Grid.ColumnSpan="2">
-            <MenuItem Header="Add"></MenuItem>
-        </Menu>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <TextBlock Text="Type Serialization" Margin="10,3,310,-3"></TextBlock>
+            <ComboBox Margin="110,2,240,3" SelectedValuePath="Content" SelectedValue="{Binding TypeSerialization}" >
+                <ComboBoxItem Content="Xml"></ComboBoxItem>
+                <ComboBoxItem Content="Excel"></ComboBoxItem>
+            </ComboBox>
+        </Grid>
         <DataGrid  Grid.Row="1" ItemsSource="{Binding SampleExport}"
                           AutoGenerateColumns="False"
                           IsReadOnly="False"
@@ -37,7 +41,7 @@
                 <DataGridTextColumn Header="City" Binding="{Binding City}" Width="Auto"/>
                 <DataGridTextColumn Header="Country" Binding="{Binding Country}" Width="*"/>
             </DataGrid.Columns>
-            
+
         </DataGrid>
         <Button Grid.Row="2" Content="Export" Height="25" Command="{Binding ExportExecuteCommand}" CommandParameter="" Margin="165,13,36,12"/>
     </Grid>

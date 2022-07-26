@@ -14,7 +14,7 @@ namespace Starter.Serialization
         public XmlSerialization()
         {
             _xmlWriterSettings = new XmlWriterSettings() { Indent = true };
-            _serializer = new XmlSerializer(typeof(T));
+            _serializer = new XmlSerializer(typeof(List<T>));
         }
 
         public void Serialization(string filePath, object data)

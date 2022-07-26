@@ -55,10 +55,14 @@ namespace Starter.Models
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                return (from record in records
-                        from dbRecord in db.Records.ToList()
-                        where dbRecord.Equals(record)
-                        select dbRecord).ToList();
+                if (records != null && records.Count != 0)
+                    return (from record in records
+                            from dbRecord in db.Records.ToList()
+                            where dbRecord.Equals(record)
+                            select dbRecord).ToList();
+                else
+                    return (from dbRecord in db.Records.ToList()
+                            select dbRecord).ToList();
             }
         }
     }

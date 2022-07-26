@@ -16,6 +16,7 @@
             <MenuItem Header="File">
                 <MenuItem Header="Add file" Command="{Binding AddCsvFileCommand}"></MenuItem>
                 <MenuItem Header="Clean table" Command="{Binding CleanDbCommand}"></MenuItem>
+                <MenuItem Header="Export" Command="{Binding ExportOptionWindowCommand}"></MenuItem>
                 <MenuItem Header="Exit" Command="{Binding CloseApplicationCommand}"></MenuItem>
             </MenuItem>
             <MenuItem Header="Export">
