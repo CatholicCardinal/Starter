@@ -1,19 +1,10 @@
-﻿using Starter.Models;
-using Starter.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Starter.Serialization
+﻿namespace Starter.Serialization
 {
     public class ManagerSerialization<T>
     {
         public ISerialization<T> serialization;
 
-        private string methodSerialization="Excel";
+        private string methodSerialization = "Excel";
         public string MethodSerialization { get => methodSerialization; set => methodSerialization = value; }
         public ManagerSerialization(string methodSerialization)
         {

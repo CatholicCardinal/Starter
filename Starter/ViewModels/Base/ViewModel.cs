@@ -18,7 +18,7 @@ namespace Starter.ViewModels.Base
             field = value;
             OnPropertyChanged(PropertyName);
             return true;
-            
+
         }
     }
 }

@@ -1,9 +1,5 @@
-﻿     using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Starter.Commands.Base;
+﻿using Starter.Commands.Base;
+using System;
 
 namespace Starter.Commands
 {
@@ -21,6 +17,6 @@ namespace Starter.Commands
         public override bool CanExecute(object? parameter) => canExecute?.Invoke(parameter) ?? true;
 
         public override void Execute(object? parameter) => execute(parameter);
-        
+
     }
 }

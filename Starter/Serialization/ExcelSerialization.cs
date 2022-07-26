@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Office.Interop.Excel;
+﻿using Microsoft.Office.Interop.Excel;
 using Starter.Attributes;
+using System;
+using System.Collections.Generic;
 
 namespace Starter.Serialization
 {
@@ -18,7 +14,7 @@ namespace Starter.Serialization
         {
             _excel = new Application();
             _excel.Visible = false;
-            
+
             _workbook = _excel.Workbooks.Add();
         }
 

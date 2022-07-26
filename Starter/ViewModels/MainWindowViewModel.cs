@@ -1,15 +1,14 @@
-﻿using System.Windows;
+﻿using Microsoft.Win32;
 using Starter.Commands;
+using Starter.Models;
+using Starter.Serialization;
 using Starter.ViewModels.Base;
-using System.Windows.Input;
+using Starter.Views;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using Microsoft.Win32;
-using Starter.Models;
-using System.Collections.Generic;
-using System;
-using Starter.Views;
-using Starter.Serialization;
+using System.Windows;
+using System.Windows.Input;
 
 namespace Starter.ViewModels
 {
@@ -72,9 +71,9 @@ namespace Starter.ViewModels
                 UpdateAllRecordsView();
 
             }
-            catch 
-            { 
-            
+            catch
+            {
+
             }
         }
         public string OpenFileDialog()
@@ -82,7 +81,7 @@ namespace Starter.ViewModels
             var dialog = new OpenFileDialog { InitialDirectory = "C:\\" };
             dialog.Filter = "CSV Files (*.csv)|*.csv";
             dialog.ShowDialog();
-             
+
             return dialog.FileName;
         }
         #endregion
@@ -94,7 +93,7 @@ namespace Starter.ViewModels
 
         private void OnExportExecuteCommand(object obj)
         {
-            string dialogFilter ="";
+            string dialogFilter = "";
             switch (TypeSerialization)
             {
                 case "Xml":
@@ -106,7 +105,7 @@ namespace Starter.ViewModels
                 default:
                     break;
             }
-     
+
             var answ = SaveFileDialog(dialogFilter);
             if (!string.IsNullOrEmpty(answ))
             {

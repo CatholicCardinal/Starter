@@ -1,7 +1,5 @@
-﻿using Starter.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -25,7 +23,7 @@ namespace Starter.Serialization
                 {
                     using (XmlWriter xmlWriter = XmlWriter.Create(filePath, _xmlWriterSettings))
                     {
-                        
+
                         _serializer.Serialize(xmlWriter, data);
                     }
                 }
@@ -40,7 +38,7 @@ namespace Starter.Serialization
         {
             try
             {
-        
+
             }
             catch (Exception ex)
             {
