@@ -50,7 +50,7 @@ namespace Starter.ViewModels
                 tblcsv.Columns.Add("Date");
                 tblcsv.Columns.Add("Name");
                 tblcsv.Columns.Add("SecondName");
-                tblcsv.Columns.Add("Patranomic");
+                tblcsv.Columns.Add("Patronymic");
                 tblcsv.Columns.Add("City");
                 tblcsv.Columns.Add("Country");
 

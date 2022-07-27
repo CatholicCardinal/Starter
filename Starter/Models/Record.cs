@@ -13,7 +13,7 @@ namespace Starter.Models
         public string Date { get; set; }
         public string Name { get; set; }
         public string SecondName { get; set; }
-        public string Patranomic { get; set; }
+        public string Patronymic { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
 
@@ -23,7 +23,7 @@ namespace Starter.Models
                    (Date == record.Date || record.Date == null) &&
                    (Name == record.Name || record.Name == null) &&
                    (SecondName == record.SecondName || record.SecondName == null) &&
-                   (Patranomic == record.Patranomic || record.Patranomic == null) &&
+                   (Patronymic == record.Patronymic || record.Patronymic == null) &&
                    (City == record.City || record.City == null) &&
                    (Country == record.Country || record.Country == null);
         }

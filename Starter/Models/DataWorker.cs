@@ -37,7 +37,7 @@ namespace Starter.Models
             objbulk.ColumnMappings.Add("Date", "Date");
             objbulk.ColumnMappings.Add("Name", "Name");
             objbulk.ColumnMappings.Add("SecondName", "SecondName");
-            objbulk.ColumnMappings.Add("Patranomic", "Patranomic");
+            objbulk.ColumnMappings.Add("Patronymic", "Patronymic");
             objbulk.ColumnMappings.Add("City", "City");
             objbulk.ColumnMappings.Add("Country", "Country");
 
