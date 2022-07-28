@@ -20,12 +20,12 @@ namespace Starter.Models
         public override bool Equals(object? obj)
         {
             return obj is Record record &&
-                   (Date == record.Date || record.Date == null) &&
-                   (Name == record.Name || record.Name == null) &&
-                   (SecondName == record.SecondName || record.SecondName == null) &&
-                   (Patronymic == record.Patronymic || record.Patronymic == null) &&
-                   (City == record.City || record.City == null) &&
-                   (Country == record.Country || record.Country == null);
+                   (record.Date == null || Date == record.Date) &&
+                   (record.Name == null || Name == record.Name) &&
+                   (record.SecondName == null || SecondName == record.SecondName) &&
+                   (record.Patronymic == null || Patronymic == record.Patronymic) &&
+                   (record.City == null || City == record.City) &&
+                   (record.Country == null || Country == record.Country );
         }
     }
 }

@@ -4,7 +4,7 @@
     {
         public ISerialization<T> serialization;
 
-        private string methodSerialization = "Excel";
+        private string methodSerialization;
         public string MethodSerialization { get => methodSerialization; set => methodSerialization = value; }
         public ManagerSerialization(string methodSerialization)
         {

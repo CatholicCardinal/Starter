@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using Starter.Models.Data;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Linq;
 
@@ -30,7 +31,7 @@ namespace Starter.Models
         {
             DeleteAllRecords();
 
-            var con = new SqlConnection("Server=(localdb)\\mssqllocaldb;Database=starter1;Trusted_Connection=True;");
+            var con = new SqlConnection(ConfigurationManager.AppSettings["SqlServerConnection"]);
             SqlBulkCopy objbulk = new SqlBulkCopy(con);
 
             objbulk.DestinationTableName = "Records";
