@@ -1,4 +1,6 @@
-﻿namespace Starter.Serialization
+﻿using Starter.Serialization.Implementation;
+
+namespace Starter.Serialization
 {
     public class ManagerSerialization<T>
     {

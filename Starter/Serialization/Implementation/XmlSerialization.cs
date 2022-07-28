@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Starter.Serialization
+namespace Starter.Serialization.Implementation
 {
     internal class XmlSerialization<T> : ISerialization<T>
     {

@@ -4,12 +4,8 @@ using System.Xml.Serialization;
 
 namespace Starter.Models
 {
-    [Serializable]
-    public class Record
+    public class Record : BaseModel
     {
-        [SkipProperty]
-        [XmlAttribute("ID")]
-        public int Id { get; set; }
         public string Date { get; set; }
         public string Name { get; set; }
         public string SecondName { get; set; }
@@ -25,7 +21,7 @@ namespace Starter.Models
                    (record.SecondName == null || SecondName == record.SecondName) &&
                    (record.Patronymic == null || Patronymic == record.Patronymic) &&
                    (record.City == null || City == record.City) &&
-                   (record.Country == null || Country == record.Country );
+                   (record.Country == null || Country == record.Country);
         }
     }
 }

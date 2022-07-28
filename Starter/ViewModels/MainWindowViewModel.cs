@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using Starter.Commands;
+using Starter.Deserialization.Implementation;
 using Starter.Models;
+using Starter.Models.Repositories;
 using Starter.Serialization;
 using Starter.ViewModels.Base;
 using Starter.Views;
@@ -14,7 +16,7 @@ namespace Starter.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-        private List<Record> allRecords = DataWorker.GetAllRecords();
+        private List<Record> allRecords;
         public List<Record> AllRecords { get => allRecords; set => Set(ref allRecords, value); }
 
         private List<Record> sampleExport = new List<Record>();
@@ -23,6 +25,8 @@ namespace Starter.ViewModels
         private string typeSerialization;
         public string TypeSerialization { get => typeSerialization; set => Set(ref typeSerialization, value); }
 
+        private IUnitOfWork db;
+
         public MainWindowViewModel()
         {
             AddCsvFileCommand = new RelayCommand(OnAddCsvFileCommand, CanAddCsvFileCommand);
@@ -30,6 +34,9 @@ namespace Starter.ViewModels
             ExportOptionWindowCommand = new RelayCommand(OnExportOptionWindowCommandCommand, CanExportOptionWindowCommandCommand);
             CleanDbCommand = new RelayCommand(OnCleanDbCommand, CanCleanDbCommand);
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
+
+            db = new UnitOfWork();
+            UpdateAllRecordsView();
         }
 
         #region Commands
@@ -42,6 +49,10 @@ namespace Starter.ViewModels
         public void OnAddCsvFileCommand(object p)
         {
             //string CSVFilePath = Path.GetFullPath("D:\\Program_works\\other\\Starter\\Starter\\DataTest.csv");
+            CsvDeserialization<Record> csv = new CsvDeserialization<Record>();
+            var temp = csv.Deserialization("D:\\Program_works\\other\\Starter\\Starter\\DataTest.csv");
+            db.Records.BulkSave(temp);
+            db.Save();
             try
             {
                 string ReadCSV = File.ReadAllText(OpenFileDialog());
@@ -141,7 +152,9 @@ namespace Starter.ViewModels
         public bool CanCleanDbCommand(object p) => true;
         public void OnCleanDbCommand(object p)
         {
-            DataWorker.DeleteAllRecords();
+            db.Records.RemoveAll();
+            db.Save();
+            //DataWorker.DeleteAllRecords();
             UpdateAllRecordsView();
         }
         #endregion
@@ -173,7 +186,7 @@ namespace Starter.ViewModels
         #endregion
         private void UpdateAllRecordsView()
         {
-            AllRecords = DataWorker.GetAllRecords();
+            AllRecords = db.Records.GetAll();
         }
     }
 }

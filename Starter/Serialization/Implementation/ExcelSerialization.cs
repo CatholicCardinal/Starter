@@ -3,7 +3,7 @@ using Starter.Attributes;
 using System;
 using System.Collections.Generic;
 
-namespace Starter.Serialization
+namespace Starter.Serialization.Implementation
 {
     public class ExcelSerialization<T> : ISerialization<T>
     {
