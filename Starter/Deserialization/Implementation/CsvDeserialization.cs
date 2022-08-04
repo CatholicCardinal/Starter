@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Starter.Deserialization.Implementation
 {
-    public class CsvDeserialization<T> : IDeserialization<T> where T : class, new()
+    public class CsvDeserialization<T> : IDeserialization<T> where T : new()
     {
         public List<T> Deserialization(string filePath)
         {
@@ -23,6 +23,7 @@ namespace Starter.Deserialization.Implementation
                 if (!string.IsNullOrEmpty(csvRow))
                 {
                     object exemplar = new T();
+
                     string[] allData = csvRow.Split(';');
                     PropertyInfo[] allFields = typeof(T).GetFilteredProperties();
 
@@ -39,18 +40,9 @@ namespace Starter.Deserialization.Implementation
             return result;  
         }
 
-        public string OpenFileDialog()
-        {
-            var dialog = new OpenFileDialog { InitialDirectory = "C:\\" };
-            dialog.Filter = "CSV Files (*.csv)|*.csv";
-            dialog.ShowDialog();
-
-            return dialog.FileName;
-        }
-
         public void Dispose()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

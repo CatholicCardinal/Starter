@@ -1,9 +1,12 @@
 ﻿using Microsoft.Win32;
 using Starter.Commands;
+using Starter.Deserialization;
+using Starter.Deserialization.Factory;
 using Starter.Deserialization.Implementation;
 using Starter.Models;
 using Starter.Models.Repositories;
 using Starter.Serialization;
+using Starter.Serialization.Factory;
 using Starter.ViewModels.Base;
 using Starter.Views;
 using System.Collections.Generic;
@@ -11,6 +14,7 @@ using System.Data;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using Ioc = Microsoft.Toolkit.Mvvm.DependencyInjection.Ioc;
 
 namespace Starter.ViewModels
 {
@@ -25,7 +29,9 @@ namespace Starter.ViewModels
         private string typeSerialization;
         public string TypeSerialization { get => typeSerialization; set => Set(ref typeSerialization, value); }
 
-        private IUnitOfWork db;
+        private readonly IUnitOfWork _db;
+        private readonly ISerializatorFactory _serializatorFactory;
+        private readonly IDeserializatorFactory _deserializatorFactory;
 
         public MainWindowViewModel()
         {
@@ -35,7 +41,9 @@ namespace Starter.ViewModels
             CleanDbCommand = new RelayCommand(OnCleanDbCommand, CanCleanDbCommand);
             CloseApplicationCommand = new RelayCommand(OnCloseApplicationCommand, CanCloseApplicationCommand);
 
-            db = new UnitOfWork();
+            _db = Ioc.Default.GetService<IUnitOfWork>();
+            _serializatorFactory = Ioc.Default.GetService<ISerializatorFactory>();
+            _deserializatorFactory = Ioc.Default.GetService<IDeserializatorFactory>();
             UpdateAllRecordsView();
         }
 
@@ -48,39 +56,19 @@ namespace Starter.ViewModels
         public bool CanAddCsvFileCommand(object p) => true;
         public void OnAddCsvFileCommand(object p)
         {
-            //string CSVFilePath = Path.GetFullPath("D:\\Program_works\\other\\Starter\\Starter\\DataTest.csv");
-            CsvDeserialization<Record> csv = new CsvDeserialization<Record>();
-            var temp = csv.Deserialization("D:\\Program_works\\other\\Starter\\Starter\\DataTest.csv");
-            db.Records.BulkSave(temp);
-            db.Save();
             try
             {
-                string ReadCSV = File.ReadAllText(OpenFileDialog());
-
-                DataTable tblcsv = new DataTable();
-                tblcsv.Columns.Add("Date");
-                tblcsv.Columns.Add("Name");
-                tblcsv.Columns.Add("SecondName");
-                tblcsv.Columns.Add("Patronymic");
-                tblcsv.Columns.Add("City");
-                tblcsv.Columns.Add("Country");
-
-                foreach (string csvRow in ReadCSV.Split('\n'))
+                ManagerDeserialization<Record> managerDeserialization = new ManagerDeserialization<Record>("Csv", _deserializatorFactory);
+                var temp = new List<Record>();
+                var answ = OpenFileDialog();
+                if (!string.IsNullOrEmpty(answ))
                 {
-                    if (!string.IsNullOrEmpty(csvRow))
-                    {
-                        tblcsv.Rows.Add();
-                        int count = 0;
-                        foreach (string FileRec in csvRow.Split(';'))
-                        {
-                            tblcsv.Rows[tblcsv.Rows.Count - 1][count] = FileRec;
-                            count++;
-                        }
-                    }
-                }
-                DataWorker.InsertCSVRecords(tblcsv);
-                UpdateAllRecordsView();
+                    temp = managerDeserialization.Import(answ);
+                    _db.Records.BulkSave(temp);
+                    _db.Save();
 
+                    UpdateAllRecordsView();
+                }
             }
             catch
             {
@@ -120,7 +108,7 @@ namespace Starter.ViewModels
             var answ = SaveFileDialog(dialogFilter);
             if (!string.IsNullOrEmpty(answ))
             {
-                ManagerSerialization<Record> managerSerialization = new ManagerSerialization<Record>(TypeSerialization);
+                ManagerSerialization<Record> managerSerialization = new ManagerSerialization<Record>(TypeSerialization, _serializatorFactory);
                 managerSerialization.Export(answ, DataWorker.SelectRecordLINQ(SampleExport));
             }
         }
@@ -152,8 +140,8 @@ namespace Starter.ViewModels
         public bool CanCleanDbCommand(object p) => true;
         public void OnCleanDbCommand(object p)
         {
-            db.Records.RemoveAll();
-            db.Save();
+            _db.Records.RemoveAll();
+            _db.Save();
             //DataWorker.DeleteAllRecords();
             UpdateAllRecordsView();
         }
@@ -186,7 +174,7 @@ namespace Starter.ViewModels
         #endregion
         private void UpdateAllRecordsView()
         {
-            AllRecords = db.Records.GetAll();
+            AllRecords = _db.Records.GetAll();
         }
     }
 }
