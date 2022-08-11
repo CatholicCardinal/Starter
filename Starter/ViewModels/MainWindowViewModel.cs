@@ -2,7 +2,6 @@
 using Starter.Commands;
 using Starter.Deserialization;
 using Starter.Deserialization.Factory;
-using Starter.Deserialization.Implementation;
 using Starter.Models;
 using Starter.Models.Repositories;
 using Starter.Serialization;
@@ -10,8 +9,6 @@ using Starter.Serialization.Factory;
 using Starter.ViewModels.Base;
 using Starter.Views;
 using System.Collections.Generic;
-using System.Data;
-using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Ioc = Microsoft.Toolkit.Mvvm.DependencyInjection.Ioc;

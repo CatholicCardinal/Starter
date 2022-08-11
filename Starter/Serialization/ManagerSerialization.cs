@@ -14,7 +14,7 @@ namespace Starter.Serialization
         {
             MethodSerialization = methodSerialization;
             _factory = factory;
-            serialization =_factory.Resolve<T>(MethodSerialization);
+            serialization = _factory.Resolve<T>(MethodSerialization);
         }
         public void Export(string filePath, object data)
         {

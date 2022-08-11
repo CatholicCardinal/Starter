@@ -15,7 +15,7 @@ namespace Starter.Deserialization
         {
             MethodDeserialization = methodDeserialization;
             _factory = factory;
-            deserialization =_factory.Resolve<T>(MethodDeserialization);
+            deserialization = _factory.Resolve<T>(MethodDeserialization);
         }
         public List<T> Import(string filePath)
         {

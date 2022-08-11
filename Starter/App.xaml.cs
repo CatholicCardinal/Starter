@@ -1,8 +1,8 @@
-﻿using System.Windows;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Starter.Deserialization.Factory;
 using Starter.Models.Repositories;
 using Starter.Serialization.Factory;
+using System.Windows;
 using IOC = Microsoft.Toolkit.Mvvm.DependencyInjection.Ioc;
 
 

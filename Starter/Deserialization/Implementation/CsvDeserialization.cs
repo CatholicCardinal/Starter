@@ -1,12 +1,7 @@
-﻿using Microsoft.Win32;
-using Starter.Attributes;
-using System;
+﻿using Starter.Attributes;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Starter.Deserialization.Implementation
 {
@@ -37,7 +32,7 @@ namespace Starter.Deserialization.Implementation
                     result.Add((T)exemplar);
                 }
             }
-            return result;  
+            return result;
         }
 
         public void Dispose()

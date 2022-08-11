@@ -1,8 +1,4 @@
-﻿using Starter.Attributes;
-using System;
-using System.Xml.Serialization;
-
-namespace Starter.Models
+﻿namespace Starter.Models
 {
     public class Record : BaseModel
     {
