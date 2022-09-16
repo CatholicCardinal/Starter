@@ -2,6 +2,7 @@
 using Starter.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Starter.Serialization.Implementation
 {
@@ -18,16 +19,16 @@ namespace Starter.Serialization.Implementation
             _workbook = _excel.Workbooks.Add();
         }
 
-        public void Serialization(string filePath, object data)
+        public async Task Serialization(string filePath, object data)
         {
-            SetData((List<T>)data);
+            await SetData((List<T>)data);
             if (!string.IsNullOrEmpty(filePath))
             {
                 _workbook.SaveAs(filePath);
             }
         }
 
-        private bool Set(string column, int row, object data)
+        private async Task<bool> Set(string column, int row, object data)
         {
             try
             {
@@ -38,14 +39,14 @@ namespace Starter.Serialization.Implementation
             return false;
         }
 
-        private void SetData(List<T> data)
+        private async Task SetData(List<T> data)
         {
             try
             {
                 char colomnValue = 'A';
                 foreach (var field in typeof(T).GetFilteredProperties())
                 {
-                    Set(column: colomnValue.ToString(), row: 1, data: field.Name);
+                    await Set(column: colomnValue.ToString(), row: 1, data: field.Name);
                     colomnValue++;
                 }
 
@@ -56,7 +57,7 @@ namespace Starter.Serialization.Implementation
                     colomnValue = 'A';
                     foreach (var field in typeof(T).GetFilteredProperties())
                     {
-                        Set(column: colomnValue.ToString(), row: i, data: field.GetValue(item));
+                        await Set(column: colomnValue.ToString(), row: i, data: field.GetValue(item));
                         colomnValue++;
                     }
                     i++;

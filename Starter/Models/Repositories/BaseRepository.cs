@@ -2,6 +2,7 @@
 using Starter.Models.Data;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Starter.Models.Repositories
 {
@@ -16,9 +17,9 @@ namespace Starter.Models.Repositories
             _dbSet = _dbContext.Set<T>();
         }
 
-        public virtual List<T> GetAll()
+        public async virtual Task<List<T>> GetAll()
         {
-            return _dbSet.ToList();
+            return await _dbSet.ToListAsync();
         }
 
         public virtual T Get(int id)
@@ -38,14 +39,14 @@ namespace Starter.Models.Repositories
             }
         }
 
-        public virtual void BulkSave(IList<T> model)
+        public async virtual Task BulkSave(IList<T> model)
         {
-            _dbSet.AddRange(model);
+            await _dbSet.AddRangeAsync(model);
         }
 
         public virtual void RemoveAll()
         {
-            _dbSet.RemoveRange(_dbSet);
+              _dbSet.RemoveRange(_dbSet);
         }
 
         public virtual void Remove(T model)

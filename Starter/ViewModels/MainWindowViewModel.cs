@@ -9,6 +9,7 @@ using Starter.Serialization.Factory;
 using Starter.ViewModels.Base;
 using Starter.Views;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using Ioc = Microsoft.Toolkit.Mvvm.DependencyInjection.Ioc;
@@ -51,7 +52,7 @@ namespace Starter.ViewModels
         public ICommand AddCsvFileCommand { get; }
 
         public bool CanAddCsvFileCommand(object p) => true;
-        public void OnAddCsvFileCommand(object p)
+        public async void OnAddCsvFileCommand(object p)
         {
             try
             {
@@ -60,11 +61,11 @@ namespace Starter.ViewModels
                 var answ = OpenFileDialog();
                 if (!string.IsNullOrEmpty(answ))
                 {
-                    temp = managerDeserialization.Import(answ);
-                    _db.Records.BulkSave(temp);
-                    _db.Save();
+                    temp = await managerDeserialization.Import(answ);
+                    await _db.Records.BulkSave(temp);
+                    await _db.Save();
 
-                    UpdateAllRecordsView();
+                    await UpdateAllRecordsView();
                 }
             }
             catch
@@ -87,7 +88,7 @@ namespace Starter.ViewModels
 
         private bool CanExportExecuteCommand(object arg) => true;
 
-        private void OnExportExecuteCommand(object obj)
+        private async void OnExportExecuteCommand(object obj)
         {
             string dialogFilter = "";
             switch (TypeSerialization)
@@ -106,7 +107,8 @@ namespace Starter.ViewModels
             if (!string.IsNullOrEmpty(answ))
             {
                 ManagerSerialization<Record> managerSerialization = new ManagerSerialization<Record>(TypeSerialization, _serializatorFactory);
-                managerSerialization.Export(answ, DataWorker.SelectRecordLINQ(SampleExport));
+                await managerSerialization.Export(answ, await DataWorker.SelectRecordLINQ(SampleExport));
+                managerSerialization.serialization.Dispose();
             }
         }
 
@@ -135,12 +137,12 @@ namespace Starter.ViewModels
         public ICommand CleanDbCommand { get; }
 
         public bool CanCleanDbCommand(object p) => true;
-        public void OnCleanDbCommand(object p)
+        public async void OnCleanDbCommand(object p)
         {
             _db.Records.RemoveAll();
-            _db.Save();
-            //DataWorker.DeleteAllRecords();
-            UpdateAllRecordsView();
+            await _db.Save();
+
+            await UpdateAllRecordsView();
         }
         #endregion
 
@@ -169,9 +171,9 @@ namespace Starter.ViewModels
             window.ShowDialog();
         }
         #endregion
-        private void UpdateAllRecordsView()
+        private async Task UpdateAllRecordsView()
         {
-            AllRecords = _db.Records.GetAll();
+            AllRecords = await _db.Records.GetAll();
         }
     }
 }

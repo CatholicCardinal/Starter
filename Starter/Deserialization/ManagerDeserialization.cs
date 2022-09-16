@@ -1,6 +1,7 @@
 ﻿using Starter.Deserialization.Factory;
 using Starter.Deserialization.Implementation;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Starter.Deserialization
 {
@@ -17,9 +18,9 @@ namespace Starter.Deserialization
             _factory = factory;
             deserialization = _factory.Resolve<T>(MethodDeserialization);
         }
-        public List<T> Import(string filePath)
+        public async Task<List<T>> Import(string filePath)
         {
-            var result = deserialization.Deserialization(filePath);
+            var result = await deserialization.Deserialization(filePath);
             deserialization.Dispose();
             return result;
         }

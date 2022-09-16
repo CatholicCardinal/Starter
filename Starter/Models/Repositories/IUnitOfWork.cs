@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace Starter.Models.Repositories
 {
@@ -6,6 +7,6 @@ namespace Starter.Models.Repositories
     {
         IBaseRepository<Record> Records { get; }
 
-        void Save();
+        Task Save();
     }
 }

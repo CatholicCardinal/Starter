@@ -1,4 +1,5 @@
 ﻿using Starter.Models.Data;
+using System.Threading.Tasks;
 
 namespace Starter.Models.Repositories
 {
@@ -26,28 +27,28 @@ namespace Starter.Models.Repositories
             }
         }
 
-        public void Save()
+        public async Task Save()
         {
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
 
         private bool disposed = false;
 
-        protected virtual void Dispose(bool disposing)
+        protected async virtual Task Dispose(bool disposing)
         {
             if (!this.disposed)
             {
                 if (disposing)
                 {
-                    dbContext.Dispose();
+                    await dbContext.DisposeAsync();
                 }
             }
             this.disposed = true;
         }
 
-        public void Dispose()
+        public async void Dispose()
         {
-            Dispose(true);
+            await Dispose(true);
         }
 
     }

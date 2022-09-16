@@ -1,5 +1,6 @@
 ﻿using Starter.Serialization.Factory;
 using Starter.Serialization.Implementation;
+using System.Threading.Tasks;
 
 namespace Starter.Serialization
 {
@@ -16,9 +17,9 @@ namespace Starter.Serialization
             _factory = factory;
             serialization = _factory.Resolve<T>(MethodSerialization);
         }
-        public void Export(string filePath, object data)
+        public async Task Export(string filePath, object data)
         {
-            serialization.Serialization(filePath, data);
+            await serialization.Serialization(filePath, data);
             serialization.Dispose();
         }
     }

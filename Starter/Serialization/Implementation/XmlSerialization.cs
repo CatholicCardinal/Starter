@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -15,7 +16,7 @@ namespace Starter.Serialization.Implementation
             _serializer = new XmlSerializer(typeof(List<T>));
         }
 
-        public void Serialization(string filePath, object data)
+        public async Task Serialization(string filePath, object data)
         {
             try
             {
@@ -23,7 +24,6 @@ namespace Starter.Serialization.Implementation
                 {
                     using (XmlWriter xmlWriter = XmlWriter.Create(filePath, _xmlWriterSettings))
                     {
-
                         _serializer.Serialize(xmlWriter, data);
                     }
                 }
